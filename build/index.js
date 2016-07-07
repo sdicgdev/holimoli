@@ -3,9 +3,8 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.DATE_FORMAT = exports.WHITELIST = undefined;
+exports.WHITELIST = undefined;
 exports.default = get_holidays;
-exports.format_dates = format_dates;
 
 var _axios = require('axios');
 
@@ -23,8 +22,6 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 var WHITELIST = exports.WHITELIST = (0, _immutable.List)(["New Year's Eve", "Christmas", "Christmas Eve", "Thanksgiving Day", "Veterans Day", "Election Day", "Halloween", "Columbus Day", "Labor Day", "Independence Day", "Memorial Day", "Earth Day", "Easter", "Good Friday", "Saint Patrick's Day", "Valentine's Day", "Groundhog Day", "Martin Luther King, Jr. Day", "New Year's Day"]);
 
-var DATE_FORMAT = exports.DATE_FORMAT = 'MM/DD/YYYY';
-
 function get_holidays() {
   var year = arguments.length <= 0 || arguments[0] === undefined ? 2016 : arguments[0];
   var whitelist = arguments.length <= 1 || arguments[1] === undefined ? WHITELIST : arguments[1];
@@ -35,20 +32,10 @@ function get_holidays() {
   });
 }
 
-function format_dates(holidays) {
-  var date_format = arguments.length <= 1 || arguments[1] === undefined ? DATE_FORMAT : arguments[1];
-
-  return holidays.map(function (day) {
-    return day.set('date', (0, _moment2.default)(day.date).format(date_format));
-  });
-}
-
 function gather(whitelist, holidays) {
   return holidays.reduce(function (important_days, holidays, day) {
     return important_days.push.apply(important_days, _toConsumableArray(whitelisted(whitelist, (0, _immutable.List)(holidays))));
-  }, (0, _immutable.List)()).map(function (day) {
-    return (0, _immutable.Map)({ name: day.name, date: new Date(day.date) });
-  }).sortBy(function (day) {
+  }, (0, _immutable.List)()).sortBy(function (day) {
     return day.get('date');
   });
 }
@@ -56,5 +43,7 @@ function gather(whitelist, holidays) {
 function whitelisted(whitelist, holidays) {
   return holidays.filter(function (day) {
     return whitelist.includes(day.name);
+  }).map(function (day) {
+    return (0, _immutable.Map)(day);
   });
 }

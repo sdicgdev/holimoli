@@ -1,8 +1,8 @@
 {
   "name": "holiday",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "command line program to retrieve whitelisted holidays",
+  "main": "build/index.js",
   "scripts": {
     "test": "babel-node ./index.js",
     "start": "babel-node ./bin/index.js",
@@ -11,6 +11,10 @@
     "build": "npm run build:base && npm run build:bin",
     "clean": "rm -rf build",
     "build:clean": "npm run clean && npm run build"
+  },
+  "directories": {
+    "bin": "build/bin",
+    "lib": "build/"
   },
   "babel": {
     "presets": [

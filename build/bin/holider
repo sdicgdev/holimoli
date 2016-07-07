@@ -3,6 +3,10 @@
 
 var _immutable = require('immutable');
 
+var _moment = require('moment');
+
+var _moment2 = _interopRequireDefault(_moment);
+
 var _index = require('../index');
 
 var _index2 = _interopRequireDefault(_index);
@@ -13,6 +17,7 @@ var fs = require('fs');
 
 var argv = require('minimist')(process.argv.slice(2));
 var current_year = new Date().getFullYear();
+var DATE_FORMAT = 'MM/DD/YYYY';
 
 if (argv.h || argv.help) {
   console.log('\n    --output\t\tabsolute path to file\tdefault=console.log\n    --year\t\t4 digit year\tdefault=' + current_year + '\n    --whitelist\t\tJSON array of holiday names\n    --date-format\t\tformat date using moment.js\tdefault=\'MM/DD/YYYY\'\n  ');
@@ -24,10 +29,16 @@ var output_file = argv.output;
 var year = argv.year || current_year;
 var arg_list = argv.whitelist && (0, _immutable.List)(JSON.parse(argv.whitelist));
 var whitelist = arg_list || _index.WHITELIST;
-var date_format = argv['date-format'] || _index.DATE_FORMAT;
+var date_format = argv['date-format'] || DATE_FORMAT;
+
+var reform_day = function reform_day(day) {
+  return (0, _immutable.Map)({ name: day.get('name'), date: (0, _moment2.default)(day.get('date')).format(date_format) });
+};
 
 (0, _index2.default)(year, whitelist).then(function (result) {
-  var text = JSON.stringify((0, _index.format_dates)(result, date_format), null, '\t');
+  return result.map(reform_day);
+}).then(function (result) {
+  var text = JSON.stringify(result, null, '\t');
   if (output_file) {
     fs.writeFileSync(output_file, text);
     if (!argv.quiet && !argv.q) console.log('output written to ' + output_file);
