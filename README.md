@@ -21,7 +21,7 @@ Instructions
 
 $ > holimoli --help
 
-  --output         absolute path to file          default=console.log
+  --output         relative path to file          default=console.log
   --year           4 digit year                   default=2016
   --whitelist      JSON array of holiday names
   --date-format    format date using moment.js    default='MM/DD/YYYY'
