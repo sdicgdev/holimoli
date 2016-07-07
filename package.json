@@ -1,6 +1,6 @@
 {
-  "name": "holiday",
-  "version": "1.0.0",
+  "name": "holimoli",
+  "version": "0.0.0",
   "description": "command line program to retrieve whitelisted holidays",
   "main": "build/index.js",
   "scripts": {
