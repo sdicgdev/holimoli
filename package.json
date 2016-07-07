@@ -6,7 +6,7 @@
 	"scripts": {
 		"test": "babel-node ./index.js",
 		"start": "babel-node ./bin/index.js",
-		"build:base": "babel -d build/ bin/index.js; mv build/bin/index.js build/bin/holider",
+		"build:base": "babel -d build/ bin/index.js; mv build/bin/index.js build/bin/holimoli",
 		"build:bin": "babel -d build/ index.js",
 		"build": "npm run build:base && npm run build:bin",
 		"clean": "rm -rf build",
