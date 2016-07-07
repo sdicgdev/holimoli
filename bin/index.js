@@ -36,7 +36,7 @@ get_holidays(year, whitelist)
   .then(result => {
     const text = JSON.stringify(result, null, '\t')
     if(output_file) {
-      fs.writeFileSync(`${__dirname}/${output_file}`, text);
+      fs.writeFileSync(`${process.cwd()}/${output_file}`, text);
       if(!argv.quiet && !argv.q) console.log(`output written to ${output_file}`)
     }else{
       console.log(text);
