@@ -24,7 +24,6 @@ export const WHITELIST = List([
   "New Year's Day"
 ]);
 
-
 export default function get_holidays(year=2016, whitelist=WHITELIST){
   return axios(`https://holidayapi.com/v1/holidays?country=US&year=${year}`)
           .then(result => {

@@ -11,7 +11,7 @@ const DATE_FORMAT = 'MM/DD/YYYY';
 
 if(argv.h || argv.help){
   console.log(`
-    --output\t\tabsolute path to file\tdefault=console.log
+    --output\t\trelative path to file\tdefault=console.log
     --year\t\t4 digit year\tdefault=${current_year}
     --whitelist\t\tJSON array of holiday names
     --date-format\t\tformat date using moment.js\tdefault='MM/DD/YYYY'
@@ -26,14 +26,17 @@ const arg_list    = argv.whitelist && List(JSON.parse(argv.whitelist));
 const whitelist   = arg_list||WHITELIST
 const date_format = argv['date-format']||DATE_FORMAT
 
-const reform_day  = (day) => Map({name: day.get('name'),date: moment(day.get('date')).format(date_format)});
+const reform_day  = (day) => Map({
+  name: day.get('name'),
+  date: moment(day.get('date')).format(date_format)
+});
 
 get_holidays(year, whitelist)
   .then(result => result.map(reform_day))
   .then(result => {
     const text = JSON.stringify(result, null, '\t')
     if(output_file) {
-      fs.writeFileSync(output_file, text);
+      fs.writeFileSync(`${__dirname}/${output_file}`, text);
       if(!argv.quiet && !argv.q) console.log(`output written to ${output_file}`)
     }else{
       console.log(text);

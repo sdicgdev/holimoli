@@ -20,7 +20,7 @@ var current_year = new Date().getFullYear();
 var DATE_FORMAT = 'MM/DD/YYYY';
 
 if (argv.h || argv.help) {
-  console.log('\n    --output\t\tabsolute path to file\tdefault=console.log\n    --year\t\t4 digit year\tdefault=' + current_year + '\n    --whitelist\t\tJSON array of holiday names\n    --date-format\t\tformat date using moment.js\tdefault=\'MM/DD/YYYY\'\n  ');
+  console.log('\n    --output\t\trelative path to file\tdefault=console.log\n    --year\t\t4 digit year\tdefault=' + current_year + '\n    --whitelist\t\tJSON array of holiday names\n    --date-format\t\tformat date using moment.js\tdefault=\'MM/DD/YYYY\'\n  ');
 
   process.exit();
 }
@@ -32,7 +32,10 @@ var whitelist = arg_list || _index.WHITELIST;
 var date_format = argv['date-format'] || DATE_FORMAT;
 
 var reform_day = function reform_day(day) {
-  return (0, _immutable.Map)({ name: day.get('name'), date: (0, _moment2.default)(day.get('date')).format(date_format) });
+  return (0, _immutable.Map)({
+    name: day.get('name'),
+    date: (0, _moment2.default)(day.get('date')).format(date_format)
+  });
 };
 
 (0, _index2.default)(year, whitelist).then(function (result) {
@@ -40,7 +43,7 @@ var reform_day = function reform_day(day) {
 }).then(function (result) {
   var text = JSON.stringify(result, null, '\t');
   if (output_file) {
-    fs.writeFileSync(output_file, text);
+    fs.writeFileSync(__dirname + '/' + output_file, text);
     if (!argv.quiet && !argv.q) console.log('output written to ' + output_file);
   } else {
     console.log(text);
